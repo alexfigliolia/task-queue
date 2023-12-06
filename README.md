@@ -56,7 +56,7 @@ const cancelFN = TQ.deferTask(() => {
 ##### `registerTask(task: Task, priority: number): CancelFN`
 Registers a function to execute at a certain priority level. Returns a cancel function that, if called, will remove the task from the queue
 ```typescript
-import { TQ } from "@figliolia/task-queue";
+import { TaskQueue } from "@figliolia/task-queue";
 
 const N = 3;
 
@@ -67,7 +67,7 @@ const cancelFN = TQ.registerTask(() => {}, 1)
 ##### `deferTask(task: Task, delay: number): CancelFN`
 Registers a task to execute after a specified delay. Returns a cancel function that, if called, will remove the task from the queue
 ```typescript
-import { TQ } from "@figliolia/task-queue";
+import { TaskQueue } from "@figliolia/task-queue";
 
 const TQ = TaskQueue();
 
@@ -76,7 +76,7 @@ const cancelFN = TQ.deferTask(() => {}, 1000);
 ##### `executeAll(onComplete?: Task, taskSeparation?: number): CancelFN`
 Executes all prioritized tasks registered using `registerTask()`. Tasks are executed based on the priority levels that they were registered with and dispersed along the call stack using the `taskSeparation`. 
 ```typescript
-import { TQ } from "@figliolia/task-queue";
+import { TaskQueue } from "@figliolia/task-queue";
 
 const TQ = TaskQueue({ priorities: 3 });
 
@@ -96,7 +96,7 @@ Invoking the returned cancel function will pause the execution of the remaining 
 ##### `executeTasksWithPriority(): CancelFN`
 Executes all tasks registered at a specified priority level. Returns a cancel function
 ```typescript
-import { TQ } from "@figliolia/task-queue";
+import { TaskQueue } from "@figliolia/task-queue";
 
 const TQ = TaskQueue({ priorities: 3 });
 // Register any number of tasks
@@ -155,7 +155,7 @@ In the above example, the `TaskQueue's` priority levels are used for categorizin
 ##### `clearPendingTasks(): void`
 Removes all pending tasks from the task `TaskQueue`. This includes both prioritized tasks registered using `TaskQueue.registerTask()` and deferred tasks registered using `TaskQueue.deferTask()`
 ```typescript
-import { TQ } from "@figliolia/task-queue";
+import { TaskQueue } from "@figliolia/task-queue";
 
 const TQ = TaskQueue({ priorities: 3 });
 
@@ -171,7 +171,7 @@ TQ.clearPendingTasks();
 ##### `clearDeferredTasks(): void`
 Removes all pending tasks registered using `TaskQueue.deferTask()`. These tasks are released, cancelled and forgotten by the `TaskQueue`
 ```typescript
-import { TQ } from "@figliolia/task-queue";
+import { TaskQueue } from "@figliolia/task-queue";
 
 const TQ = TaskQueue();
 
@@ -186,7 +186,7 @@ TQ.clearDeferredTasks();
 ##### `getCancelFN(): CancelFN | void`
 Returns the current cancel token if the `TaskQueue` is executing or undefined if the `TaskQueue` is idol.
 ```typescript
-import { TQ } from "@figliolia/task-queue";
+import { TaskQueue } from "@figliolia/task-queue";
 
 const TQ = TaskQueue({ priorities: 3 });
 
@@ -205,7 +205,7 @@ cancel && cancel()
 ## Advanced Usage
 
 ### Using `autoRun`
-The `autoRun` option is designed to make your `TaskQueues` running at all times. This option will cause registered tasks to `auto-execute` as soon as they're enqueued. Tasks will continue to execute at their appropriate priority levels, but allow lower priority tasks to execute immediately if the Queue is empty!
+The `autoRun` option is designed to make your `TaskQueues` run at all times. This option will cause registered tasks to `auto-execute` as soon as they're enqueued. Tasks will continue to execute at their appropriate priority levels, but allow lower priority tasks to execute immediately if the Queue is empty!
 ```typescript
 const TQ = new TaskQueue({ 
   priorities: 3, 
