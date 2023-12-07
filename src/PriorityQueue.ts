@@ -81,11 +81,9 @@ export class PriorityQueue<T> implements Queue<T> {
    * its buckets
    */
   public get isEmpty() {
-    return this.findFirst(() => {
+    return !this.findFirst(() => {
       return false;
-    }) === undefined
-      ? true
-      : false;
+    });
   }
 
   /**
