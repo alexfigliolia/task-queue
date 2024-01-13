@@ -1,9 +1,17 @@
 {
   "name": "@figliolia/task-queue",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A lightweight task queue for managing prioritized and scheduled tasks",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/mjs/index.js",
+      "require": "./dist/cjs/index.js",
+      "types": "./dist/types/index.d.ts"
+    }
+  },
+  "main": "dist/cjs/index.js",
+  "module": "dist/mjs/index.js",
+  "types": "dist/types/index.d.ts",
   "files": [
     "dist",
     "src/*"
@@ -12,10 +20,11 @@
   "license": "MIT",
   "scripts": {
     "test": "jest",
-    "build": "rm -rf dist && tsc --project tsconfig.build.json && tsc-alias -p tsconfig.build.json",
+    "build": "npx ts-packager -e src",
     "lint": "tsc --noemit && eslint ./ --fix"
   },
   "devDependencies": {
+    "@figliolia/ts-packager": "^1.0.3",
     "@types/jest": "^29.5.3",
     "@types/node": "^16.7.13",
     "@typescript-eslint/eslint-plugin": "^5.59.1",
@@ -45,7 +54,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@figliolia/event-emitter": "^1.0.8"
+    "@figliolia/event-emitter": "^1.1.2"
   },
   "keywords": [
     "priority-queue",

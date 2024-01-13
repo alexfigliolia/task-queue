@@ -340,10 +340,23 @@
   resolved "https://registry.yarnpkg.com/@eslint/js/-/js-8.44.0.tgz#961a5903c74139390478bdc808bcde3fc45ab7af"
   integrity sha512-Ag+9YM4ocKQx9AarydN0KY2j0ErMHNIocPDrVo8zAE44xLTjEtz81OdR68/cydGtk6m6jDb5Za3r2useMzYmSw==
 
-"@figliolia/event-emitter@^1.0.8":
-  version "1.0.8"
-  resolved "https://registry.yarnpkg.com/@figliolia/event-emitter/-/event-emitter-1.0.8.tgz#5592433d97e3b250cdb691afb040e59b88d77bde"
-  integrity sha512-U0VNMaDbYgbEcPPWSOR+EwpGPx4t3DX+Y7s1EM1ubylm8pJIcYPxfKETP00OpDl8D+Lrqa0Bkmxtm+EhOFrtCA==
+"@figliolia/child-process@^1.0.1":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@figliolia/child-process/-/child-process-1.0.3.tgz#38fd4b913524f6219eea586d169b786e5e331e9e"
+  integrity sha512-GZwsbqWPYxvbd3X5CPx++kmy5JsTYXp+ovtvoJZMraaY0/hBLi4ZGiVACNNfujBJCEYsyroxrY20ylYUC2snnw==
+
+"@figliolia/event-emitter@^1.1.2":
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/@figliolia/event-emitter/-/event-emitter-1.1.2.tgz#38f30c3ebd20a98db2f4c02c20cab9d7e75b8b83"
+  integrity sha512-45SrozPyiFZALXnMGK85DU7QbQLnreDJEBCztl2HZGnO5mK0dXkPwYFwgOO/eSfbJG8X4UmchYzchMNLwEGMwg==
+
+"@figliolia/ts-packager@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@figliolia/ts-packager/-/ts-packager-1.0.3.tgz#74f8e3850441a400792af18feb02159ffbdf83b8"
+  integrity sha512-8Lek4sc9EvBsaczaJ1bwQ49rS3vwljvE291naVwTziP8kpeqX2wpsizP3SuO1uDtHLSzfMKOeqnfEfmvjisxJw==
+  dependencies:
+    "@figliolia/child-process" "^1.0.1"
+    chalk "^4.1.2"
 
 "@humanwhocodes/config-array@^0.11.10":
   version "0.11.10"
@@ -1192,7 +1205,7 @@ chalk@^2.0.0:
     escape-string-regexp "^1.0.5"
     supports-color "^5.3.0"
 
-chalk@^4.0.0:
+chalk@^4.0.0, chalk@^4.1.2:
   version "4.1.2"
   resolved "https://registry.yarnpkg.com/chalk/-/chalk-4.1.2.tgz#aac4e2b7734a740867aeb16bf02aad556a1e7a01"
   integrity sha512-oKnbhFyRIXpUuez8iBMmyEa4nbj4IOQyuhc/wy9kY7/WVPcwIO9VA668Pu8RkO7+0G76SLROeyw9CpQ061i4mA==
