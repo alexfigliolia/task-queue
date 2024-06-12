@@ -5,7 +5,7 @@ export interface Queue<T> {
   isEmpty: boolean;
   enqueue: (item: T, ...rest: any[]) => string;
   dequeue: () => T | undefined;
-  peak: () => [string, T] | undefined;
+  peek: () => [string, T] | undefined;
   delete: (ID: string, ...rest: any[]) => boolean;
   clear: () => void;
 }

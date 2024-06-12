@@ -78,7 +78,7 @@ export class TaskQueue {
    */
   public registerTask(task: Task, priority = 1): CancelFN {
     const ID = this.tasks.enqueue(task, priority - 1);
-    if (this.autoRun && !this.internals.peak()) {
+    if (this.autoRun && !this.internals.peek()) {
       this.executeAll();
     }
     return () => {
@@ -119,7 +119,7 @@ export class TaskQueue {
     if (onComplete) {
       this.subscriptions.enqueue(onComplete);
     }
-    if (this.internals.peak()) {
+    if (this.internals.peek()) {
       return this.getCancelFN()!;
     }
     const cancelFN = this.cancellableExecution(this.tasks, taskSeparation);
@@ -148,7 +148,7 @@ export class TaskQueue {
     if (onComplete) {
       this.subscriptions.enqueue(onComplete);
     }
-    if (this.internals.peak()) {
+    if (this.internals.peek()) {
       return this.getCancelFN()!;
     }
     return this.cancellableExecution(
@@ -189,7 +189,7 @@ export class TaskQueue {
    * executed;
    */
   public getCancelFN(): undefined | CancelFN {
-    const activeTask = this.internals.peak();
+    const activeTask = this.internals.peek();
     if (activeTask) {
       return activeTask[1];
     }

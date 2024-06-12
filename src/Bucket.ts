@@ -40,12 +40,12 @@ export class Bucket<T> implements Queue<T> {
   }
 
   /**
-   * Peak
+   * peek
    *
    * Returns the first item from the Bucket or undefined
    * if the bucket is empty
    */
-  public peak() {
+  public peek() {
     for (const entry of this.bucket) {
       return entry;
     }

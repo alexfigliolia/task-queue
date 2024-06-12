@@ -48,9 +48,11 @@ export class PriorityQueue<T> implements Queue<T> {
    * before lower priorities
    */
   public dequeue() {
-    return this.findFirst((bucket) => {
-      return bucket.dequeue();
-    });
+    for (const bucket of this) {
+      if (bucket.length) {
+        return bucket.dequeue();
+      }
+    }
   }
 
   /**
@@ -64,14 +66,16 @@ export class PriorityQueue<T> implements Queue<T> {
   }
 
   /**
-   * Peak
+   * peek
    *
    * Returns the highest priority item in the Queue
    */
-  public peak() {
-    return this.findFirst((bucket) => {
-      return bucket.peak();
-    });
+  public peek() {
+    for (const bucket of this) {
+      if (bucket.length) {
+        return bucket.peek();
+      }
+    }
   }
 
   /**
@@ -81,9 +85,12 @@ export class PriorityQueue<T> implements Queue<T> {
    * its buckets
    */
   public get isEmpty() {
-    return !this.findFirst(() => {
-      return false;
-    });
+    for (const bucket of this) {
+      if (bucket.length) {
+        return false;
+      }
+    }
+    return true;
   }
 
   /**
@@ -93,9 +100,9 @@ export class PriorityQueue<T> implements Queue<T> {
    */
   public get length() {
     let length = 0;
-    this.all((bucket) => {
+    for (const bucket of this) {
       length += bucket.length;
-    });
+    }
     return length;
   }
 
@@ -116,9 +123,9 @@ export class PriorityQueue<T> implements Queue<T> {
    * Resets the priority queue and removes all items
    */
   public clear() {
-    this.all((bucket) => {
+    for (const bucket of this) {
       bucket.clear();
-    });
+    }
   }
 
   /**
@@ -134,31 +141,9 @@ export class PriorityQueue<T> implements Queue<T> {
     }
   }
 
-  /**
-   * Find First
-   *
-   * Executes the provided callback on the first non-empty
-   * bucket
-   */
-  private findFirst<C extends (bucket: Bucket<T>) => any>(
-    cb: C
-  ): ReturnType<C> | undefined {
+  *[Symbol.iterator]() {
     for (const bucket of this.buckets) {
-      if (!bucket.isEmpty) {
-        return cb(bucket);
-      }
-    }
-  }
-
-  /**
-   * All
-   *
-   * Executes the provided callback on each of the buckets
-   * present in the Queue
-   */
-  private all<C extends (bucket: Bucket<T>) => void>(cb: C) {
-    for (const bucket of this.buckets) {
-      cb(bucket);
+      yield bucket;
     }
   }
 }
