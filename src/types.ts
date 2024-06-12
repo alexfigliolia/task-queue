@@ -14,6 +14,7 @@ export interface ITaskQueue {
   autoRun?: boolean;
   priorities?: number;
   taskSeparation?: number;
+  mainThreadYieldTime?: number;
 }
 
 export type Task = () => void | Promise<void>;

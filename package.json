@@ -1,6 +1,6 @@
 {
   "name": "@figliolia/task-queue",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A lightweight task queue for managing prioritized and scheduled tasks",
   "exports": {
     ".": {

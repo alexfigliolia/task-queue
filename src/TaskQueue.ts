@@ -15,6 +15,7 @@ import type { CancelFN, DeferredTask, ITaskQueue, Queue, Task } from "./types";
  *  priorities: 4,
  *  autoRun: false,
  *  taskSeparation: 5,
+ *  mainThreadYieldTime: 5.
  * });
  *
  * const task1 = () => {};
@@ -52,14 +53,21 @@ import type { CancelFN, DeferredTask, ITaskQueue, Queue, Task } from "./types";
 export class TaskQueue {
   public autoRun = false;
   public taskSeparation = 0;
+  public mainThreadYieldTime = 5;
   public tasks: PriorityQueue<Task>;
   public subscriptions = new Bucket<Task>();
   public internals = new Bucket<CancelFN>();
   public deferredTasks = new Bucket<DeferredTask>();
   constructor(config: ITaskQueue = TaskQueue.defaultConfig) {
-    const { priorities = 1, autoRun = false, taskSeparation = 0 } = config;
+    const {
+      priorities = 1,
+      autoRun = false,
+      taskSeparation = 0,
+      mainThreadYieldTime = 5,
+    } = config;
     this.autoRun = autoRun;
     this.taskSeparation = taskSeparation;
+    this.mainThreadYieldTime = mainThreadYieldTime;
     this.tasks = new PriorityQueue<Task>(priorities);
   }
 
@@ -67,6 +75,7 @@ export class TaskQueue {
     priorities: 1,
     autoRun: false,
     taskSeparation: 0,
+    mainThreadYieldTime: 5,
   };
 
   /**
@@ -213,6 +222,10 @@ export class TaskQueue {
         if (cancelToken || !proceed) {
           break;
         }
+        if (this.isInputPending()) {
+          await this.yieldMainThread();
+          continue;
+        }
         const task = queue.dequeue();
         task && void task();
       }
@@ -235,11 +248,29 @@ export class TaskQueue {
    */
   private *generator(queue: Queue<Task>, taskSeparation = 0) {
     while (!queue.isEmpty) {
-      yield new Promise<boolean>((resolve) => {
-        this.deferTask(() => {
-          resolve(true);
-        }, taskSeparation);
-      });
+      if (!taskSeparation) {
+        yield true;
+      } else {
+        yield new Promise<boolean>((resolve) => {
+          this.deferTask(() => {
+            resolve(true);
+          }, taskSeparation);
+        });
+      }
     }
+  }
+
+  private isInputPending() {
+    if (typeof window !== "undefined" && typeof navigator !== "undefined") {
+      // @ts-ignore
+      return navigator?.scheduling?.isInputPending() ?? false;
+    }
+    return false;
+  }
+
+  private yieldMainThread() {
+    return new Promise((resolve) => {
+      setTimeout(resolve, this.mainThreadYieldTime);
+    });
   }
 }

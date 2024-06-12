@@ -91,7 +91,7 @@ describe("Task Queue", () => {
     });
 
     it("Executions can be cancelled before they complete", async () => {
-      const TQ = new TaskQueue({ priorities: 3 });
+      const TQ = new TaskQueue({ priorities: 3, taskSeparation: 5 });
       const onComplete = jest.fn();
       const task1 = jest.fn();
       const task2 = jest.fn();
@@ -102,9 +102,9 @@ describe("Task Queue", () => {
       await new Promise<void>((resolve) => {
         const cancel = TQ.executeAll(() => {
           onComplete();
-          setTimeout(resolve, 10);
+          setTimeout(resolve, 50);
         });
-        setTimeout(cancel, 0);
+        setTimeout(cancel, 10);
       });
       expect(onComplete).toHaveBeenCalledTimes(1);
       expect(TQ.subscriptions.length).toEqual(0);
@@ -237,6 +237,29 @@ describe("Task Queue", () => {
       expect(task).toHaveBeenCalledTimes(1);
       expect(getCancelFN).toHaveBeenCalledTimes(2);
       expect(subscription).toHaveBeenCalledTimes(3);
+    });
+
+    it("It can yield to the main thread", async () => {
+      const TQ = new TaskQueue({ priorities: 3, mainThreadYieldTime: 5 });
+      // @ts-ignore private-method
+      const checkSpy = jest.spyOn(TQ, "isInputPending").mockReturnValue(true);
+      // @ts-ignore private-method
+      const yeildSpy = jest.spyOn(TQ, "yieldMainThread");
+      const task = jest.fn();
+      TQ.registerTask(task, 1);
+      TQ.executeAll();
+      await new Promise((resolve) => {
+        setTimeout(resolve, 10);
+      });
+      expect(checkSpy).toHaveBeenCalled();
+      expect(yeildSpy).toHaveBeenCalled();
+      expect(task).toHaveBeenCalledTimes(0);
+      // @ts-ignore private-method
+      checkSpy.mockReturnValue(false);
+      await new Promise((resolve) => {
+        setTimeout(resolve, 10);
+      });
+      expect(task).toHaveBeenCalled();
     });
   });
 
