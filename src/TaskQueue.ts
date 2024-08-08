@@ -1,4 +1,4 @@
-import { Bucket } from "./Bucket";
+import { QuickQueue } from "@figliolia/data-structures";
 import { PriorityQueue } from "./PriorityQueue";
 import type { CancelFN, DeferredTask, ITaskQueue, Queue, Task } from "./types";
 
@@ -55,9 +55,9 @@ export class TaskQueue {
   public taskSeparation = 0;
   public mainThreadYieldTime = 5;
   public tasks: PriorityQueue<Task>;
-  public subscriptions = new Bucket<Task>();
-  public internals = new Bucket<CancelFN>();
-  public deferredTasks = new Bucket<DeferredTask>();
+  public subscriptions = new QuickQueue<Task>();
+  public internals = new QuickQueue<CancelFN>();
+  public deferredTasks = new QuickQueue<DeferredTask>();
   constructor(config: ITaskQueue = TaskQueue.defaultConfig) {
     const {
       priorities = 1,
@@ -123,7 +123,7 @@ export class TaskQueue {
    */
   public executeAll(
     onComplete?: Task,
-    taskSeparation = this.taskSeparation
+    taskSeparation = this.taskSeparation,
   ): CancelFN {
     if (onComplete) {
       this.subscriptions.enqueue(onComplete);
@@ -152,7 +152,7 @@ export class TaskQueue {
   public executeTasksWithPriority(
     priority = 1,
     taskSeparation = 0,
-    onComplete?: Task
+    onComplete?: Task,
   ): CancelFN {
     if (onComplete) {
       this.subscriptions.enqueue(onComplete);
@@ -162,7 +162,7 @@ export class TaskQueue {
     }
     return this.cancellableExecution(
       this.tasks.getBucket(priority - 1),
-      taskSeparation
+      taskSeparation,
     );
   }
 
@@ -213,7 +213,7 @@ export class TaskQueue {
    */
   private cancellableExecution(
     queue: Queue<Task>,
-    taskSeparation = this.taskSeparation
+    taskSeparation = this.taskSeparation,
   ): CancelFN {
     let cancelToken = false;
     const iterable = this.generator(queue, taskSeparation);
@@ -251,7 +251,7 @@ export class TaskQueue {
       if (!taskSeparation) {
         yield true;
       } else {
-        yield new Promise<boolean>((resolve) => {
+        yield new Promise<boolean>(resolve => {
           this.deferTask(() => {
             resolve(true);
           }, taskSeparation);
@@ -269,7 +269,7 @@ export class TaskQueue {
   }
 
   private yieldMainThread() {
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       setTimeout(resolve, this.mainThreadYieldTime);
     });
   }

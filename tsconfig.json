@@ -28,6 +28,15 @@
 	},
 	"include": [
 		"src",
-		"*.json"
+		"ci",
+		".eslintrc.cjs",
+		"**/*.json",
+		"**/*.ts",
+		"**/*.js"
+	],
+	"exclude": [
+		"coverage",
+		"dist",
+		"node_modules"
 	]
 }

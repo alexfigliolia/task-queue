@@ -1,4 +1,4 @@
-import { Bucket } from "../Bucket";
+import { QuickQueue } from "@figliolia/data-structures";
 import { PriorityQueue } from "../PriorityQueue";
 import { TaskQueue } from "../TaskQueue";
 
@@ -12,10 +12,10 @@ describe("Task Queue", () => {
       expect(TQ.tasks.max).toEqual(2);
       expect(TQ.tasks.buckets.length).toEqual(3);
       expect(
-        TQ.tasks.buckets.every((bucket) => bucket instanceof Bucket)
+        TQ.tasks.buckets.every(bucket => bucket instanceof QuickQueue),
       ).toEqual(true);
-      expect(TQ.tasks.buckets.every((bucket) => bucket.length === 0)).toEqual(
-        true
+      expect(TQ.tasks.buckets.every(bucket => bucket.length === 0)).toEqual(
+        true,
       );
     });
 
@@ -31,9 +31,9 @@ describe("Task Queue", () => {
       const TQ = new TaskQueue({
         priorities: 3,
       });
-      expect(TQ.internals).toBeInstanceOf(Bucket);
-      expect(TQ.deferredTasks).toBeInstanceOf(Bucket);
-      expect(TQ.subscriptions).toBeInstanceOf(Bucket);
+      expect(TQ.internals).toBeInstanceOf(QuickQueue);
+      expect(TQ.deferredTasks).toBeInstanceOf(QuickQueue);
+      expect(TQ.subscriptions).toBeInstanceOf(QuickQueue);
     });
   });
 
@@ -46,10 +46,10 @@ describe("Task Queue", () => {
       TQ.registerTask(task1, 1);
       TQ.registerTask(task2, 2);
       TQ.registerTask(task3, 3);
-      expect(TQ.tasks.buckets.every((bucket) => bucket.length === 1)).toEqual(
-        true
+      expect(TQ.tasks.buckets.every(bucket => bucket.length === 1)).toEqual(
+        true,
       );
-      await new Promise<void>((resolve) => {
+      await new Promise<void>(resolve => {
         TQ.executeAll(resolve);
       });
       expect(TQ.tasks.length).toEqual(0);
@@ -66,7 +66,7 @@ describe("Task Queue", () => {
       TQ.registerTask(noop, 1);
       TQ.registerTask(noop, 2);
       TQ.registerTask(noCall, 3)();
-      await new Promise<void>((resolve) => {
+      await new Promise<void>(resolve => {
         TQ.executeAll(resolve);
       });
       expect(TQ.tasks.length).toEqual(0);
@@ -79,7 +79,7 @@ describe("Task Queue", () => {
       const TQ = new TaskQueue({ priorities: 3 });
       const onComplete = jest.fn();
       TQ.registerTask(() => {}, 1);
-      await new Promise<void>((resolve) => {
+      await new Promise<void>(resolve => {
         TQ.executeAll(() => {
           onComplete();
           setTimeout(resolve, 10);
@@ -99,7 +99,7 @@ describe("Task Queue", () => {
       TQ.registerTask(task1, 1);
       TQ.registerTask(task2, 2);
       TQ.registerTask(task3, 3);
-      await new Promise<void>((resolve) => {
+      await new Promise<void>(resolve => {
         const cancel = TQ.executeAll(() => {
           onComplete();
           setTimeout(resolve, 50);
@@ -121,7 +121,7 @@ describe("Task Queue", () => {
       const noop = jest.fn();
       TQ.deferTask(noop, 0);
       expect(TQ.deferredTasks.length).toEqual(1);
-      await new Promise((resolve) => {
+      await new Promise(resolve => {
         setTimeout(resolve, 0);
       });
       expect(noop).toHaveBeenCalled();
@@ -132,7 +132,7 @@ describe("Task Queue", () => {
       const TQ = new TaskQueue({});
       const noop = jest.fn();
       const cancel = TQ.deferTask(noop, 2);
-      await new Promise<void>((resolve) => {
+      await new Promise<void>(resolve => {
         setTimeout(() => {
           cancel();
           resolve();
@@ -153,7 +153,7 @@ describe("Task Queue", () => {
       TQ.registerTask(task3, 3);
       TQ.registerTask(task2, 2);
       TQ.registerTask(task1, 1);
-      await new Promise((resolve) => {
+      await new Promise(resolve => {
         setTimeout(resolve, 10);
       });
       expect(task1).toHaveBeenCalledBefore(task2);
@@ -191,13 +191,13 @@ describe("Task Queue", () => {
       TQ.registerTask(noop, 1);
       TQ.registerTask(() => {}, 2);
       TQ.registerTask(noop, 3);
-      await new Promise<void>((resolve) => {
+      await new Promise<void>(resolve => {
         TQ.executeTasksWithPriority(2, TQ.taskSeparation, () => {
           resolve();
         });
       });
       expect(noop).toHaveBeenCalledTimes(0);
-      await new Promise<void>((resolve) => {
+      await new Promise<void>(resolve => {
         TQ.executeTasksWithPriority(1, TQ.taskSeparation, () => {
           resolve();
         });
@@ -211,7 +211,7 @@ describe("Task Queue", () => {
       TQ.registerTask(noop, 1);
       TQ.registerTask(() => {}, 2);
       TQ.registerTask(() => {}, 3);
-      await new Promise<void>((resolve) => {
+      await new Promise<void>(resolve => {
         TQ.executeAll(() => {
           resolve();
         });
@@ -231,7 +231,7 @@ describe("Task Queue", () => {
       TQ.executeAll(subscription);
       TQ.executeAll(subscription);
       TQ.executeAll(subscription);
-      await new Promise((resolve) => {
+      await new Promise(resolve => {
         setTimeout(resolve, 10);
       });
       expect(task).toHaveBeenCalledTimes(1);
@@ -248,7 +248,7 @@ describe("Task Queue", () => {
       const task = jest.fn();
       TQ.registerTask(task, 1);
       TQ.executeAll();
-      await new Promise((resolve) => {
+      await new Promise(resolve => {
         setTimeout(resolve, 10);
       });
       expect(checkSpy).toHaveBeenCalled();
@@ -256,7 +256,7 @@ describe("Task Queue", () => {
       expect(task).toHaveBeenCalledTimes(0);
       // @ts-ignore private-method
       checkSpy.mockReturnValue(false);
-      await new Promise((resolve) => {
+      await new Promise(resolve => {
         setTimeout(resolve, 10);
       });
       expect(task).toHaveBeenCalled();
@@ -299,8 +299,8 @@ describe("Task Queue", () => {
         TQ.registerTask(() => {}, 2);
       }).toThrow(
         new Error(
-          `Out of Range Error: Attempted to access a bucket index that does not exist`
-        )
+          `Out of Range Error: Attempted to access a bucket index that does not exist`,
+        ),
       );
     });
   });

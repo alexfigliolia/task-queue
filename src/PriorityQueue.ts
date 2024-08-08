@@ -1,5 +1,4 @@
-import { Bucket } from "./Bucket";
-import type { Queue } from "./types";
+import { QuickQueue } from "@figliolia/data-structures";
 
 /**
  * Priority Queue
@@ -18,13 +17,13 @@ import type { Queue } from "./types";
  * // queue = [[],[],[]]
  * ```
  */
-export class PriorityQueue<T> implements Queue<T> {
+export class PriorityQueue<T> {
   public max: number;
-  public buckets: Bucket<T>[] = [];
+  public buckets: QuickQueue<T>[] = [];
   constructor(buckets: number) {
     this.max = buckets - 1;
     for (let i = 0; i < buckets; i++) {
-      this.buckets.push(new Bucket());
+      this.buckets.push(new QuickQueue());
     }
   }
 
@@ -136,7 +135,7 @@ export class PriorityQueue<T> implements Queue<T> {
   private guard(priority: number) {
     if (priority > this.max) {
       throw new Error(
-        `Out of Range Error: Attempted to access a bucket index that does not exist`
+        `Out of Range Error: Attempted to access a bucket index that does not exist`,
       );
     }
   }
