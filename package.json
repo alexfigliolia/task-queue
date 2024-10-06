@@ -1,6 +1,6 @@
 {
   "name": "@figliolia/task-queue",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "A lightweight task queue for managing prioritized and scheduled tasks",
   "exports": {
     ".": {
@@ -24,14 +24,14 @@
     "test": "tsx ci/commands/Test.ts"
   },
   "dependencies": {
-    "@figliolia/data-structures": "^1.0.8"
+    "@figliolia/data-structures": "^1.1.0"
   },
   "peerDependencies": {
-    "@figliolia/data-structures": "^1.0.8"
+    "@figliolia/data-structures": "^1.1.0"
   },
   "devDependencies": {
-    "@figliolia/child-process": "^1.0.1",
-    "@figliolia/ts-packager": "^1.1.0",
+    "@figliolia/child-process": "^1.0.4",
+    "@figliolia/ts-packager": "^1.2.1",
     "@types/jest": "^29.5.12",
     "@types/node": "^20.11.19",
     "@typescript-eslint/eslint-plugin": "^5.59.1",

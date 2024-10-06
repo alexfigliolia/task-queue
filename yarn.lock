@@ -446,10 +446,15 @@
   resolved "https://registry.yarnpkg.com/@figliolia/child-process/-/child-process-1.0.3.tgz#38fd4b913524f6219eea586d169b786e5e331e9e"
   integrity sha512-GZwsbqWPYxvbd3X5CPx++kmy5JsTYXp+ovtvoJZMraaY0/hBLi4ZGiVACNNfujBJCEYsyroxrY20ylYUC2snnw==
 
-"@figliolia/data-structures@^1.0.8":
-  version "1.0.8"
-  resolved "https://registry.yarnpkg.com/@figliolia/data-structures/-/data-structures-1.0.8.tgz#bce752319e37b38637f2d3700689d21eee3f7ec7"
-  integrity sha512-Ww597Rm5xrFGkvwToWaxB018vE+boQ6bVtE57ODzDt3pfIpVCz+iuPVH5H3CL0IbePqelLb0TKN1XIK7nA/SAg==
+"@figliolia/child-process@^1.0.4":
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/@figliolia/child-process/-/child-process-1.0.4.tgz#5337c847f43a08ff9e1124793fa650f746515da5"
+  integrity sha512-midiGoIu0pO9q+T607iYFSsEFSg6XlWJ7REaGcX/mCuxgrr8hudGSPz4OzyXznVUlp1UwaVTjfgYHlSUxuaJXg==
+
+"@figliolia/data-structures@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@figliolia/data-structures/-/data-structures-1.1.0.tgz#80a2b1e5143bb257ab446398085d554a0b4332d8"
+  integrity sha512-gqrxRbihWXH+Uz+GZhLITG6pr/ywfkzSNdgG2+CyR3bWCMKqLvoVSKIFTOm6p4CXyA75E05pg6vGS1qAeJor0g==
   dependencies:
     "@figliolia/event-emitter" "^1.1.4"
 
@@ -458,10 +463,10 @@
   resolved "https://registry.yarnpkg.com/@figliolia/event-emitter/-/event-emitter-1.1.5.tgz#0c2786da56997d518cba8e542501aeead75cb1d4"
   integrity sha512-l7luLvIKPDgzF2dtuFd5SbO3i6fK0s1KRSmouUQddl9ZyxXpOKk/JLi0bLpLyzp+KjZMw1AUHXHT4ZYhEAICWg==
 
-"@figliolia/ts-packager@^1.1.0":
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@figliolia/ts-packager/-/ts-packager-1.1.0.tgz#4bd1b44e662cd0311019575489d28d803f0d636c"
-  integrity sha512-/h6sHT00hGKyU3YbIV7J3rl+LRYU5rwYTkycT3C0MldKhLXBQJxztrxUZbA+WAPIBrsXcec09GltSN4a/V1P/g==
+"@figliolia/ts-packager@^1.2.1":
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/@figliolia/ts-packager/-/ts-packager-1.2.1.tgz#2a434dedba54faa65b104577f31a318f2cf68db2"
+  integrity sha512-pap32aWzr2TGoC7S4HFrQG1vKcbjb1oWAaGop5I3PKrl68UjDKqCgmczEHukh+ABvZfnAI6J34ItqPi93OAnHQ==
   dependencies:
     "@figliolia/child-process" "^1.0.1"
     chalk "^4.1.2"
