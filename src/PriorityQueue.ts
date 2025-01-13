@@ -23,7 +23,7 @@ export class PriorityQueue<T> {
   constructor(buckets: number) {
     this.max = buckets - 1;
     for (let i = 0; i < buckets; i++) {
-      this.buckets.push(new QuickQueue());
+      this.buckets.push(new QuickQueue<T>());
     }
   }
 

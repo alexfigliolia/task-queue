@@ -451,10 +451,10 @@
   resolved "https://registry.yarnpkg.com/@figliolia/child-process/-/child-process-1.0.4.tgz#5337c847f43a08ff9e1124793fa650f746515da5"
   integrity sha512-midiGoIu0pO9q+T607iYFSsEFSg6XlWJ7REaGcX/mCuxgrr8hudGSPz4OzyXznVUlp1UwaVTjfgYHlSUxuaJXg==
 
-"@figliolia/data-structures@^1.1.0":
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@figliolia/data-structures/-/data-structures-1.1.0.tgz#80a2b1e5143bb257ab446398085d554a0b4332d8"
-  integrity sha512-gqrxRbihWXH+Uz+GZhLITG6pr/ywfkzSNdgG2+CyR3bWCMKqLvoVSKIFTOm6p4CXyA75E05pg6vGS1qAeJor0g==
+"@figliolia/data-structures@^1.1.1":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@figliolia/data-structures/-/data-structures-1.1.1.tgz#e32ce8ed1fe4c4336588bf74df152ef71b1c452d"
+  integrity sha512-/aP0TqjkdNjbAPpSxuWX/LGuGQiRgMmjuO/E1FZdCFyECYPIJoAKfKWLEx/yK2uNLYdsC+8Goahh+Q5akI4JBw==
   dependencies:
     "@figliolia/event-emitter" "^1.1.4"
 
